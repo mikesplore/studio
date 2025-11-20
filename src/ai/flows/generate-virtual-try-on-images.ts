@@ -9,7 +9,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {imagen3} from '@genkit-ai/google-genai';
 
 const GenerateVirtualTryOnImagesInputSchema = z.object({
   userPhotoDataUri: z
