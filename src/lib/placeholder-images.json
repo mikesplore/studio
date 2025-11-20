@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A stylish person using a tablet to design clothes.",
+      "imageUrl": "https://images.unsplash.com/photo-1634511468815-f712f458e852?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmYXNoaW9uJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NjM1MzY5ODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fashion technology"
+    },
+    {
+      "id": "user-full-body",
+      "description": "Full body shot of a woman.",
+      "imageUrl": "https://images.unsplash.com/photo-1574029794328-c868de3924e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3b21hbiUyMGZ1bGwlMjBib2R5fGVufDB8fHx8MTc2MzYyMjE1MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman full body"
+    },
+    {
+      "id": "user-face",
+      "description": "Close up of a woman's face.",
+      "imageUrl": "https://images.unsplash.com/photo-1544717304-a2db4a7b16ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3b21hbiUyMGZhY2V8ZW58MHx8fHwxNzYzNTg3NTg2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman face"
+    },
+    {
+      "id": "wardrobe-shirt",
+      "description": "A simple t-shirt.",
+      "imageUrl": "https://images.unsplash.com/photo-1759572095317-3a96f9a98e2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0LXNoaXJ0fGVufDB8fHx8MTc2MzYxNzg2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "t-shirt"
+    },
+    {
+      "id": "wardrobe-pants",
+      "description": "A pair of jeans.",
+      "imageUrl": "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxqZWFuc3xlbnwwfHx8fDE3NjM1NTYzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "jeans"
+    },
+    {
+      "id": "wardrobe-dress",
+      "description": "A summer dress.",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1585052201332-b8c0ce30972f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkcmVzc3xlbnwwfHx8fDE3NjM1MTE2Mjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dress"
+    },
+    {
+      "id": "mannequin-head",
+      "description": "A simple mannequin head.",
+      "imageUrl": "https://images.unsplash.com/photo-1542702937-506268e68902?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW5uZXF1aW4lMjBoZWFkfGVufDB8fHx8MTc2MzYyMjE0OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mannequin head"
+    },
+    {
+      "id": "product-bag",
+      "description": "A stylish handbag.",
+      "imageUrl": "https://images.unsplash.com/photo-1559563458-527698bf5295?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxoYW5kYmFnfGVufDB8fHx8MTc2MzYxODAzOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "handbag"
+    },
+    {
+      "id": "product-jacket",
+      "description": "A leather jacket.",
+      "imageUrl": "https://images.unsplash.com/photo-1623854156816-4c4fc355ffc7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxsZWF0aGVyJTIwamFja2V0fGVufDB8fHx8MTc2MzU1NzI4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leather jacket"
+    }
+  ]
 }
