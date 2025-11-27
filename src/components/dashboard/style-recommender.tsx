@@ -31,7 +31,7 @@ export default function StyleRecommender() {
     "I like a minimalist, comfortable style. Neutral colors like black, white, and beige are my favorite. I prefer casual and smart-casual looks."
   );
   const [loading, setLoading] = useState(false);
-  const { userPhotos, wardrobeItems } = useWardrobe();
+  const { userPhotos, wardrobeItems, getImageDataUri } = useWardrobe();
   const hasUserImages = userPhotos.length > 0 && wardrobeItems.length > 0;
   const [recommendations, setRecommendations] =
     useState<GenerateOutfitRecommendationsOutput>([]);
@@ -42,10 +42,37 @@ export default function StyleRecommender() {
     setLoading(true);
     setRecommendations([]);
     try {
+      // For outfit recommendations, we'll just use the first photo of the user and some wardrobe items.
+      // A more complex implementation could allow the user to select which ones to use.
+      const fullBodyImage = userPhotos.find(p => p.url); // find first available
+      const faceImage = userPhotos.find(p => p.url); // can be the same, model can distinguish
+      const wardrobeSelection = wardrobeItems.slice(0, 5); // Use up to 5 items
+
+      if (!fullBodyImage || !faceImage || wardrobeSelection.length === 0) {
+        toast({
+          variant: "destructive",
+          title: "Not enough images",
+          description: "Please upload at least one photo of yourself and some wardrobe items."
+        });
+        setLoading(false);
+        return;
+      }
+      
+      const fullBodyImageDataUri = await getImageDataUri(fullBodyImage.url);
+      const faceImageDataUri = await getImageDataUri(faceImage.url);
+      const wardrobeItemDataUris = await Promise.all(
+        wardrobeSelection.map(item => getImageDataUri(item.url))
+      );
+
       const response = await fetch('/api/outfit-recommendations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ stylePreferences }),
+        body: JSON.stringify({ 
+          stylePreferences,
+          fullBodyImageDataUri,
+          faceImageDataUri,
+          wardrobeItemDataUris,
+        }),
       });
       const result = await response.json();
       if (!response.ok || 'error' in result) {
@@ -53,8 +80,8 @@ export default function StyleRecommender() {
       } else {
         setRecommendations(result);
       }
-    } catch (err) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate recommendations' });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err.message || 'Failed to generate recommendations' });
     } finally {
       setLoading(false);
     }
