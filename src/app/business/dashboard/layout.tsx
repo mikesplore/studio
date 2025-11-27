@@ -2,25 +2,12 @@
 "use client";
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 import {
-  LayoutDashboard,
   LogOut,
   User,
 } from 'lucide-react';
 
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarTrigger,
-  SidebarInset,
-} from '@/components/ui/sidebar';
 import Logo from '@/components/common/logo';
 import { Button } from '@/components/ui/button';
 import {
@@ -32,26 +19,47 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { BusinessAssetProvider } from '@/contexts/business-asset-context';
 
 function BusinessUserMenu() {
+    const { data: session, status } = useSession();
+
+    if (status === 'loading') {
+        return (
+            <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                <Avatar className="h-9 w-9">
+                    <AvatarFallback>...</AvatarFallback>
+                </Avatar>
+            </Button>
+        );
+    }
+
+    if (!session) {
+        return <Button asChild><Link href="/business/login">Log In</Link></Button>
+    }
+    
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                     <Avatar className="h-9 w-9">
-                        <AvatarImage src={PlaceHolderImages.find(p => p.id === 'user-face')?.imageUrl} alt="User" data-ai-hint="person face" />
-                        <AvatarFallback>B</AvatarFallback>
+                         <AvatarImage 
+                            src={session?.user?.image || undefined} 
+                            alt={session?.user?.name || 'User'}
+                            referrerPolicy="no-referrer"
+                        />
+                        <AvatarFallback className="bg-primary text-white">
+                            {session?.user?.name?.charAt(0).toUpperCase() || 'B'}
+                        </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">My Brand</p>
+                        <p className="text-sm font-medium leading-none">{session?.user?.name || 'My Brand'}</p>
                         <p className="text-xs leading-none text-muted-foreground">
-                            contact@mybrand.com
+                            {session?.user?.email || 'contact@mybrand.com'}
                         </p>
                     </div>
                 </DropdownMenuLabel>
@@ -61,11 +69,9 @@ function BusinessUserMenu() {
                     <span>Profile</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                     <Link href="/">
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Log out</span>
-                    </Link>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -73,9 +79,6 @@ function BusinessUserMenu() {
 }
 
 export default function BusinessDashboardLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isActive = (path: string) => pathname === path;
-
   return (
     <BusinessAssetProvider>
       <div className="flex flex-col min-h-dvh">
