@@ -6,14 +6,12 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import {
   LogOut,
-  User,
   LayoutGrid,
-  Bot,
   Scan,
   Shirt,
   Palette,
   History,
-  Sparkles
+  Menu,
 } from 'lucide-react';
 
 import Logo from '@/components/common/logo';
@@ -26,26 +24,81 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { WardrobeProvider } from '@/contexts/wardrobe-context';
 import { cn } from '@/lib/utils';
 import { BusinessAssetProvider } from '@/contexts/business-asset-context';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Separator } from '@/components/ui/separator';
 
 function UserMenu() {
     const { data: session, status } = useSession();
+    const isMobile = useIsMobile();
     
     if (status === 'loading') {
         return (
-            <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                <Avatar className="h-9 w-9">
-                    <AvatarFallback>...</AvatarFallback>
-                </Avatar>
-            </Button>
+            <div className="h-9 w-9 rounded-full bg-muted animate-pulse" />
         );
     }
 
     if (status === 'unauthenticated') {
         return null;
+    }
+
+    if (isMobile) {
+        return (
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <Menu className="h-6 w-6" />
+                        <span className="sr-only">Open menu</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[280px]">
+                    <div className="p-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Avatar className="h-10 w-10">
+                                <AvatarImage 
+                                    src={session?.user?.image || undefined} 
+                                    alt={session?.user?.name || 'User'}
+                                    referrerPolicy="no-referrer"
+                                />
+                                <AvatarFallback className="bg-primary text-white">
+                                    {session?.user?.name?.charAt(0).toUpperCase() || 'U'}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col space-y-1">
+                                <p className="text-sm font-medium leading-none">{session?.user?.name}</p>
+                                <p className="text-xs leading-none text-muted-foreground">
+                                    {session?.user?.email}
+                                </p>
+                            </div>
+                        </div>
+                        <Separator />
+                        <nav className="flex flex-col gap-2 mt-4">
+                             <SheetClose asChild>
+                                <Link href="/dashboard" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                    <LayoutGrid className="h-5 w-5" />
+                                    Dashboard
+                                </Link>
+                            </SheetClose>
+                            <SheetClose asChild>
+                                <Link href="/dashboard/history" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                    <History className="h-5 w-5" />
+                                    Outfit History
+                                </Link>
+                            </SheetClose>
+                        </nav>
+                        <Separator className="my-4" />
+                        <Button variant="ghost" className="w-full justify-start" onClick={() => signOut({ callbackUrl: '/' })}>
+                            <LogOut className="mr-3 h-5 w-5" />
+                            Log out
+                        </Button>
+                    </div>
+                </SheetContent>
+            </Sheet>
+        );
     }
     
     return (
@@ -110,6 +163,7 @@ const businessNavLinks = [
 function NavTabs() {
     const pathname = usePathname();
     const isBusinessPath = pathname.startsWith('/business');
+    const isMobile = useIsMobile();
     
     const navLinks = isBusinessPath ? businessNavLinks : personalNavLinks;
 
@@ -120,13 +174,13 @@ function NavTabs() {
                     <Button
                         variant={pathname === href ? "default" : "ghost"}
                         className={cn(
-                            "rounded-full px-4 py-2 text-sm font-medium transition-all",
+                            "rounded-full px-3 sm:px-4 py-2 text-sm font-medium transition-all",
                             pathname === href
-                                ? "bg-background text-foreground shadow-md"
+                                ? "bg-background text-foreground shadow-sm"
                                 : "text-muted-foreground hover:bg-background/50"
                         )}
                     >
-                        <Icon className="mr-2 h-4 w-4" />
+                        {!isMobile && <Icon className="mr-2 h-4 w-4" />}
                         {label}
                     </Button>
                 </Link>
@@ -138,14 +192,16 @@ function NavTabs() {
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-dvh bg-gradient-to-br from-background to-muted/20">
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6 shadow-sm">
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 sm:px-6 shadow-sm">
         <Logo />
         <div className="flex-1 flex justify-center">
             <NavTabs />
         </div>
-        <UserMenu />
+        <div className="flex items-center">
+          <UserMenu />
+        </div>
       </header>
-      <main className="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
+      <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 overflow-auto">
         <div className="max-w-7xl mx-auto">
           <WardrobeProvider>
             <BusinessAssetProvider>
