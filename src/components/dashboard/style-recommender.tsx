@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -17,12 +18,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import type { GenerateOutfitRecommendationsOutput } from "@/ai/flows/generate-outfit-recommendations";
-import { Heart, Loader2, Star, Upload, AlertCircle } from "lucide-react";
+import { Heart, Loader2, Star, Upload, AlertCircle, Download } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "../ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { useWardrobe } from "@/contexts/wardrobe-context";
+import { useSession } from "next-auth/react";
 
 type Recommendation = GenerateOutfitRecommendationsOutput[0];
 
@@ -32,6 +34,7 @@ export default function StyleRecommender() {
   );
   const [loading, setLoading] = useState(false);
   const { userPhotos, wardrobeItems, getImageDataUri } = useWardrobe();
+  const { data: session } = useSession();
   const hasUserImages = userPhotos.length > 0 && wardrobeItems.length > 0;
   const [recommendations, setRecommendations] =
     useState<GenerateOutfitRecommendationsOutput>([]);
@@ -75,11 +78,31 @@ export default function StyleRecommender() {
         }),
       });
       const result = await response.json();
+
       if (!response.ok || 'error' in result) {
-        toast({ variant: 'destructive', title: 'Error', description: result?.error || 'Failed to generate recommendations' });
+        throw new Error(result?.error || 'Failed to generate recommendations');
+      } 
+      
+      setRecommendations(result);
+
+      if (result.length > 0 && session?.accessToken) {
+        toast({ title: "Success!", description: "Recommendations generated. Now saving to your history..." });
+
+        for (const rec of result) {
+          await fetch('/api/save-outfit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              imageDataUri: rec.outfitImageDataUri, 
+              fileName: `recommendation-${Date.now()}.png` 
+            }),
+          });
+        }
+        toast({ title: "Saved!", description: "Your new recommendations have been saved to your outfit history." });
       } else {
-        setRecommendations(result);
+        toast({ title: "Success!", description: "Recommendations generated." });
       }
+
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Error', description: err.message || 'Failed to generate recommendations' });
     } finally {
@@ -142,7 +165,7 @@ export default function StyleRecommender() {
                 <Upload className="mr-2 h-5 w-5" />
                 Upload Photos First
               </>
-            ) : loading ? 'Generating Recommendations...' : 'Generate Recommendations'}
+            ) : loading ? 'Generating Recommendations...' : 'Generate & Save Recommendations'}
           </Button>
         </form>
       </CardContent>
@@ -192,6 +215,15 @@ export default function StyleRecommender() {
 
 function RecommendationCard({ recommendation }: { recommendation: Recommendation }) {
   const [isLiked, setIsLiked] = useState(false);
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = recommendation.outfitImageDataUri;
+    link.download = `style-ai-recommendation-${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   
   return (
     <Card className="overflow-hidden flex flex-col hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 group">
@@ -236,11 +268,18 @@ function RecommendationCard({ recommendation }: { recommendation: Recommendation
           <Heart className={cn("h-4 w-4 mr-2", isLiked && "fill-red-500 text-red-500")} />
           {isLiked ? 'Liked' : 'Like'}
         </Button>
-        <Button variant="outline" size="sm" className="flex-1 hover:bg-accent/10 hover:border-accent transition-colors">
-          <Star className="mr-2 h-4 w-4" />
-          Save
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="flex-1 hover:bg-accent/10 hover:border-accent transition-colors"
+          onClick={handleDownload}
+        >
+          <Download className="mr-2 h-4 w-4" />
+          Download
         </Button>
       </CardFooter>
     </Card>
   );
 }
+
+    
