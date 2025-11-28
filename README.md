@@ -95,6 +95,33 @@ The application will be available at [http://localhost:9002](http://localhost:90
 
 ---
 
+## 🌍 Deploying to Production
+
+When you deploy your application to a live URL (e.g., via Firebase App Hosting), you **must** update your Google Cloud and environment variables for authentication to work.
+
+### Step 1: Update your `.env` file
+
+Your `NEXTAUTH_URL` variable must be changed from `http://localhost:9002` to your public application URL.
+
+```env
+# Example for a deployed app on Firebase App Hosting
+NEXTAUTH_URL=https://your-app-name.web.app
+```
+
+### Step 2: Update Google Cloud OAuth Credentials
+
+Google needs to know your new production URL to allow users to sign in.
+
+1.  Go to the [Google Cloud Console Credentials page](https://console.cloud.google.com/apis/credentials).
+2.  Click on the name of the **OAuth 2.0 Client ID** you created during the initial setup.
+3.  Under **Authorized JavaScript origins**, click **+ ADD URI** and add your production URL (e.g., `https://your-app-name.web.app`).
+4.  Under **Authorized redirect URIs**, click **+ ADD URI** and add your production callback URL. This must match your `NEXTAUTH_URL` + `/api/auth/callback/google`. For example: `https://your-app-name.web.app/api/auth/callback/google`.
+5.  Click **Save**.
+
+Your local `http://localhost:9002` URIs can remain for local testing. After completing these steps, Google Sign-In will work on your live application.
+
+---
+
 ## 🔑 Environment Variables Explained
 
 You need to configure the following services to run the application:
@@ -113,6 +140,7 @@ You need to configure the following services to run the application:
 - `NEXTAUTH_URL`:
   - **Purpose:** The base URL of your application, used by NextAuth for redirects.
   - **Value for local development:** `http://localhost:9002`
+  - **Value for production:** Your live application URL (e.g., `https://your-app.web.app`).
 
 #### **Google Cloud Console (for OAuth & Google Drive)**
 - `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET`:
@@ -121,8 +149,8 @@ You need to configure the following services to run the application:
     1. Go to the [Google Cloud Console Credentials page](https://console.cloud.google.com/apis/credentials).
     2. Click "**Create Credentials**" > "**OAuth client ID**".
     3. Select "**Web application**" for the Application type.
-    4. Under "**Authorized JavaScript origins**", add `http://localhost:9002`.
-    5. Under "**Authorized redirect URIs**", add `http://localhost:9002/api/auth/callback/google`.
+    4. Under "**Authorized JavaScript origins**", add `http://localhost:9002` (for local) and your production URL (for live).
+    5. Under "**Authorized redirect URIs**", add `http://localhost:9002/api/auth/callback/google` (for local) and your production callback URL.
     6. Click **Create** and copy the Client ID and Client Secret.
 
 #### **Firebase (for User Database)**
