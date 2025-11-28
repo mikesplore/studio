@@ -120,64 +120,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Showcase Section */}
-        <section id="showcase" className="w-full">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <div className="py-20 sm:py-24 lg:py-28">
-                    <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-                        Project Showcase
-                        </h2>
-                        <p className="text-lg text-muted-foreground">
-                        Learn more about the vision and technology behind StyleAI Studio.
-                        </p>
-                    </div>
-
-                    <div className="grid lg:grid-cols-2 gap-8 items-start">
-                        {/* Video Card */}
-                        <Card className="overflow-hidden">
-                            <CardHeader>
-                                <div className="flex items-center gap-3">
-                                    <Video className="w-6 h-6 text-primary"/>
-                                    <CardTitle>Demo Video</CardTitle>
-                                </div>
-                                <CardDescription>See the application in action.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="aspect-video w-full bg-muted rounded-lg flex items-center justify-center">
-                                    <video 
-                                        controls 
-                                        className="w-full h-full rounded-lg" 
-                                        src="/uploads/demovideo/demo.mp4"
-                                    >
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            </CardContent>
-                        </Card>
-                        {/* Presentation Card */}
-                        <Card>
-                            <CardHeader>
-                                <div className="flex items-center gap-3">
-                                    <Presentation className="w-6 h-6 text-primary"/>
-                                    <CardTitle>Project Presentation</CardTitle>
-                                </div>
-                                <CardDescription>Explore the slides for an in-depth overview of the project.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Button asChild className="w-full">
-                                    <a href="https://1drv.ms/p/c/c54129bf85dd293c/EVvCvk-yyn5FjJ3mpP6wXFUBGL5iQ_wB8T4sif37iS6hvA?e=FKJCXO" target="_blank" rel="noopener noreferrer">
-                                        View Presentation
-                                        <ArrowRight className="ml-2 h-4 w-4"/>
-                                    </a>
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </div>
-        </section>
-
       </main>
 
       {/* Footer */}
