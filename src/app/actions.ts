@@ -4,7 +4,7 @@
 import type {
   AnalyzeColorPaletteInput,
   AnalyzeColorPaletteOutput,
-} from '@/ai/flows/analyze-color-palette';
+} from '@/ai/schemas';
 import type {
   GenerateVirtualTryOnImagesInput,
   GenerateVirtualTryOnImagesOutput,

@@ -4,29 +4,15 @@
  * @fileOverview Analyzes a user's photo to determine their seasonal color palette.
  *
  * - analyzeColorPalette - A function that returns a color palette analysis.
- * - AnalyzeColorPaletteInput - The input type for the analyzeColorPalette function.
- * - AnalyzeColorPaletteOutput - The return type for the analyzeColorPalette function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-export const AnalyzeColorPaletteInputSchema = z.object({
-  userImageDataUri: z
-    .string()
-    .describe(
-      "A close-up image of the user's face in natural light, as a data URI. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-export type AnalyzeColorPaletteInput = z.infer<typeof AnalyzeColorPaletteInputSchema>;
-
-
-export const AnalyzeColorPaletteOutputSchema = z.object({
-  season: z.string().describe("The determined seasonal color palette (e.g., 'Warm Autumn', 'Cool Winter')."),
-  palette: z.array(z.string().regex(/^#[0-9A-F]{6}$/i)).describe("An array of 5-7 hex color codes that are most flattering for the user."),
-  description: z.string().describe("A detailed description of the user's color palette, explaining the characteristics and why these colors are flattering."),
-});
-export type AnalyzeColorPaletteOutput = z.infer<typeof AnalyzeColorPaletteOutputSchema>;
+import {
+  AnalyzeColorPaletteInput,
+  AnalyzeColorPaletteInputSchema,
+  AnalyzeColorPaletteOutput,
+  AnalyzeColorPaletteOutputSchema,
+} from '@/ai/schemas';
 
 
 export async function analyzeColorPalette(
