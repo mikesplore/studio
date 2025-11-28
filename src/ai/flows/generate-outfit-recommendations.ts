@@ -27,7 +27,7 @@ const GenerateOutfitRecommendationsInputSchema = z.object({
     .describe(
       "An array of wardrobe item images, as data URIs that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
-  stylePreferences: z.string().describe('The user\u2019s style preferences.'),
+  stylePreferences: z.string().describe('The user’s style preferences.'),
 });
 export type GenerateOutfitRecommendationsInput = z.infer<
   typeof GenerateOutfitRecommendationsInputSchema
@@ -91,12 +91,7 @@ const generateOutfitRecommendationsFlow = ai.defineFlow(
     outputSchema: GenerateOutfitRecommendationsOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input, {
-      model: 'googleai/gemini-2.5-flash-image-preview',
-      config: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
-    });
+    const {output} = await prompt(input);
     return output!;
   }
 );
