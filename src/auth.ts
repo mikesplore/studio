@@ -61,11 +61,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   debug: true, // Enable debug mode to see more detailed logs
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
+    async jwt({ token, user, account }) {
+      // Initial sign in
+      if (account && user) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.accessTokenExpires = (account.expires_at ?? 0) * 1000;
+        token.id = user.id;
         return token;
       }
       
@@ -78,10 +80,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return refreshAccessToken(token);
     },
     async session({ session, token }) {
+      session.user.id = token.id;
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
-      // @ts-ignore
-      session.error = token.error;
+      session.error = token.error as string;
       return session;
     },
   },
