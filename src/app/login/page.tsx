@@ -1,8 +1,26 @@
+
 import { UserAuthForm } from "@/components/auth/user-auth-form";
 import Logo from "@/components/common/logo";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+function AuthFormSkeleton() {
+  return (
+    <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+      <div className="flex flex-col space-y-2 text-center">
+        <Skeleton className="h-9 w-48 mx-auto" />
+        <Skeleton className="h-5 w-64 mx-auto" />
+      </div>
+      <div className="grid gap-4">
+        <Skeleton className="h-12 w-full" />
+      </div>
+      <Skeleton className="h-4 w-full" />
+    </div>
+  );
+}
 
 export default function LoginPage() {
   return (
@@ -28,7 +46,9 @@ export default function LoginPage() {
       </div>
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <UserAuthForm mode="login" />
+          <Suspense fallback={<AuthFormSkeleton />}>
+            <UserAuthForm mode="login" />
+          </Suspense>
         </div>
       </div>
     </div>
