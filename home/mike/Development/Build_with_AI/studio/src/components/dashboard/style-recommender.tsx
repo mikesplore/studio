@@ -1,3 +1,4 @@
+// src/components/dashboard/style-recommender.tsx
 "use client";
 
 import { useState } from "react";

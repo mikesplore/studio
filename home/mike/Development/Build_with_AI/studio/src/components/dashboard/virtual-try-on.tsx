@@ -1,3 +1,4 @@
+// src/components/dashboard/virtual-try-on.tsx
 "use client";
 
 import { useState, useEffect } from "react";
