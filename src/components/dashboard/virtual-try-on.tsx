@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -321,7 +322,7 @@ export default function VirtualTryOn() {
               <Button 
                 onClick={handleSubmit} 
                 disabled={loading || !selectedUserPhoto || selectedWardrobeItems.length === 0 || !canGenerate || isLimitLoading} 
-                className="w-full h-12 sm:h-14 text-sm sm:text-base lg:text-lg bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 sm:gap-3"
+                className="w-full h-12 sm:h-14 text-sm sm:text-base lg:text-lg transition-all shadow-md hover:shadow-lg disabled:opacity-50"
               >
                 {loading ? 'Generating...' : 'Generate Try-On Image'}
                 <Wand2 className="h-4 w-4 sm:h-5 sm:w-5" />
