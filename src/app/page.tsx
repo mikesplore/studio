@@ -2,14 +2,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Header from '@/components/common/header';
 import Logo from '@/components/common/logo';
-import { ArrowRight, Scan, Shirt, Wand2 } from 'lucide-react';
+import { ArrowRight, Scan, Shirt, Wand2, Presentation, Video } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
-
+  
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
@@ -54,17 +53,15 @@ export default function Home() {
                 {/* Right Image */}
                 <div className="relative w-full max-w-md mx-auto lg:max-w-none animate-fade-in-delay">
                   <div className="relative aspect-square rounded-full overflow-hidden shadow-2xl shadow-primary/10 border-8 border-background">
-                    {heroImage && (
-                      <Image
-                        src={heroImage.imageUrl}
-                        alt={heroImage.description}
-                        fill
-                        priority
-                        className="object-cover"
-                        data-ai-hint={heroImage.imageHint}
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    )}
+                    <Image
+                      src="https://images.unsplash.com/photo-1552664199-fd31f7431a55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdHlsaXNoJTIwd29tYW4lMjBtaW5pbWFsfGVufDB8fHx8MTc2NzE1ODIzNnww&ixlib=rb-4.1.0&q=80&w=1080"
+                      alt="A stylish woman in a bright, modern outfit looking at her phone"
+                      fill
+                      priority
+                      className="object-cover"
+                      data-ai-hint="stylish woman"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
                   </div>
                 </div>
@@ -122,6 +119,73 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Showcase Section */}
+        <section id="showcase" className="w-full">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                <div className="py-20 sm:py-24 lg:py-28">
+                    <div className="text-center mb-16 max-w-3xl mx-auto">
+                        <h2 className="text-4xl sm:text-5xl font-bold mb-4">
+                        Project Showcase
+                        </h2>
+                        <p className="text-lg text-muted-foreground">
+                        Learn more about the vision and technology behind StyleAI Studio.
+                        </p>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 items-start">
+                        {/* Video Card */}
+                        <Card className="overflow-hidden">
+                            <CardHeader>
+                                <div className="flex items-center gap-3">
+                                    <Video className="w-6 h-6 text-primary"/>
+                                    <CardTitle>Demo Video</CardTitle>
+                                </div>
+                                <CardDescription>See the application in action.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="aspect-video w-full bg-muted rounded-lg flex items-center justify-center">
+                                    {/* 
+                                      To add your video, replace the div above with a <video> tag.
+                                      For example:
+                                      <video 
+                                        controls 
+                                        className="w-full h-full rounded-lg" 
+                                        src="/path/to/your/video.mp4"
+                                      >
+                                        Your browser does not support the video tag.
+                                      </video>
+                                      
+                                      You can place your video file (e.g., demo.mp4) in the `public` folder
+                                      and set the src to "/demo.mp4".
+                                    */}
+                                    <p className="text-muted-foreground">Video embed placeholder</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        {/* Presentation Card */}
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center gap-3">
+                                    <Presentation className="w-6 h-6 text-primary"/>
+                                    <CardTitle>Project Presentation</CardTitle>
+                                </div>
+                                <CardDescription>Explore the slides for an in-depth overview of the project.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Button asChild className="w-full">
+                                    <a href="https://1drv.ms/p/c/c54129bf85dd293c/EVvCvk-yyn5FjJ3mpP6wXFUBGL5iQ_wB8T4sif37iS6hvA?e=FKJCXO" target="_blank" rel="noopener noreferrer">
+                                        View Presentation
+                                        <ArrowRight className="ml-2 h-4 w-4"/>
+                                    </a>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+            </div>
+        </section>
+
       </main>
 
       {/* Footer */}
