@@ -9,5 +9,6 @@ export const ai = genkit({
     googleAI({
     }),
   ],
-  model: 'gemini-2.0-flash',
+  // Use a powerful, widely available model for complex vision tasks.
+  model: 'gemini-1.5-pro-latest',
 });
