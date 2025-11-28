@@ -11,7 +11,8 @@ import {
   Bot,
   Scan,
   Shirt,
-  Palette
+  Palette,
+  History
 } from 'lucide-react';
 
 import Logo from '@/components/common/logo';
@@ -76,7 +77,7 @@ function UserMenu() {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link href="/dashboard/history">
-                        <User className="mr-2 h-4 w-4" />
+                        <History className="mr-2 h-4 w-4" />
                         <span>Outfit History</span>
                     </Link>
                 </DropdownMenuItem>
