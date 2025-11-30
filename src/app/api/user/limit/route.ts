@@ -5,12 +5,14 @@ import { getGenerationCount, incrementGenerationCount } from "@/services/user-se
 
 export async function GET(request: Request) {
   const session = await auth();
-  if (!session?.user?.id) {
+  // Use email as identifier since user id is not persisted correctly
+  const userEmail = session?.user?.email;
+  if (!userEmail) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const count = await getGenerationCount(session.user.id);
+    const count = await getGenerationCount(userEmail);
     return NextResponse.json({ count });
   } catch (error) {
     console.error("Error getting generation count:", error);
@@ -20,12 +22,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const session = await auth();
-  if (!session?.user?.id) {
+  // Use email as identifier since user id is not persisted correctly
+  const userEmail = session?.user?.email;
+  if (!userEmail) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   
   try {
-    await incrementGenerationCount(session.user.id);
+    await incrementGenerationCount(userEmail);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error incrementing generation count:", error);
