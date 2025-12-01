@@ -24,8 +24,15 @@ export default function PWAInstaller() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
     // Check if already installed
     if (window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone) {
       setIsInstalled(true);
@@ -110,14 +117,17 @@ export default function PWAInstaller() {
   const handleDismiss = () => {
     setShowInstallPrompt(false);
     // Don't show again for this session
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('installPromptDismissed', 'true');
-    }
+    sessionStorage.setItem('installPromptDismissed', 'true');
   };
+
+  // Don't render on server or if not mounted yet
+  if (!mounted) {
+    return null;
+  }
 
   // Don't show if already installed or dismissed this session
   if (isInstalled || 
-      (typeof window !== 'undefined' && sessionStorage.getItem('installPromptDismissed') === 'true') || 
+      sessionStorage.getItem('installPromptDismissed') === 'true' || 
       !showInstallPrompt || 
       !deferredPrompt) {
     return null;
