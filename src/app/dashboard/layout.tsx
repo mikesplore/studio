@@ -12,6 +12,7 @@ import {
   Palette,
   History,
   Menu,
+  UserCircle,
 } from 'lucide-react';
 
 import Logo from '@/components/common/logo';
@@ -89,6 +90,12 @@ function UserMenu() {
                                     Outfit History
                                 </Link>
                             </SheetClose>
+                            <SheetClose asChild>
+                                <Link href="/dashboard/profile" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                    <UserCircle className="h-5 w-5" />
+                                    Profile & Usage
+                                </Link>
+                            </SheetClose>
                         </nav>
                         <Separator className="my-4" />
                         <Button variant="ghost" className="w-full justify-start" onClick={() => signOut({ callbackUrl: '/' })}>
@@ -137,6 +144,12 @@ function UserMenu() {
                     <Link href="/dashboard/history">
                         <History className="mr-2 h-4 w-4" />
                         <span>Outfit History</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/dashboard/profile">
+                        <UserCircle className="mr-2 h-4 w-4" />
+                        <span>Profile & Usage</span>
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
