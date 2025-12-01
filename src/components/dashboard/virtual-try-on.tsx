@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Wand2, CheckCircle, User, Shirt, AlertCircle, Download, Sparkles, Building2 } from "lucide-react";
+import { Loader2, Wand2, CheckCircle, User, Shirt, Download, Sparkles, Building2 } from "lucide-react";
 import { useWardrobe } from "@/contexts/wardrobe-context";
 import { useBusinessAssets } from "@/contexts/business-asset-context";
 import { useSession } from "next-auth/react";
@@ -182,28 +182,7 @@ function PersonalTryOn() {
     }
   };
   
-  const hasPrerequisites = userPhotos.length > 0 && wardrobeItems.length > 0;
-
-  // Empty state - no photos uploaded yet
-  if (!hasPrerequisites) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-          <AlertCircle className="w-10 h-10 text-primary" />
-        </div>
-        <h2 className="text-2xl font-bold mb-2">Get Started</h2>
-        <p className="text-muted-foreground mb-6 max-w-md">
-          Upload photos of yourself and your clothing items to start creating virtual try-ons.
-        </p>
-        <Button asChild size="lg">
-          <Link href="/dashboard/wardrobe">
-            <Shirt className="mr-2 h-5 w-5" />
-            Go to My Wardrobe
-          </Link>
-        </Button>
-      </div>
-    );
-  }
+  
 
   return (
     <div className="h-full flex flex-col lg:flex-row gap-4 lg:gap-6">
@@ -539,28 +518,7 @@ function BusinessTryOn() {
     }
   };
   
-  const hasPrerequisites = mannequinImages.length > 0 && productImages.length > 0;
-
-  // Empty state - no assets uploaded yet
-  if (!hasPrerequisites) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-          <AlertCircle className="w-10 h-10 text-primary" />
-        </div>
-        <h2 className="text-2xl font-bold mb-2">Get Started</h2>
-        <p className="text-muted-foreground mb-6 max-w-md">
-          Upload mannequin photos and product images to start creating business catalog try-ons.
-        </p>
-        <Button asChild size="lg">
-          <Link href="/business/dashboard">
-            <Building2 className="mr-2 h-5 w-5" />
-            Go to Business Assets
-          </Link>
-        </Button>
-      </div>
-    );
-  }
+  
 
   return (
     <div className="h-full flex flex-col lg:flex-row gap-4 lg:gap-6">
